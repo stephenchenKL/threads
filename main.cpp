@@ -31,10 +31,11 @@ void increase_without_lockguard(int iterations) {
 
 void increase_with_lockguard(int iterations) {
     std::thread::id this_id = std::this_thread::get_id();
-    std::lock_guard<std::mutex> lck(mtx);
+    
     while (iterations-- > 0){
         std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_MS));
         std::osyncstream(std::cout) << "increase_with_lockguard thread " << this_id << " \n";
+        std::lock_guard<std::mutex> lck(mtx);
         ++counter;
     }
 }
